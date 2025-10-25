@@ -1,0 +1,975 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRESUPUESTO PRO - Vidrio & Aluminio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Roboto:wght@400;500;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables de colores */
+        :root {
+            --color-primary-blue: #004d99; /* Azul más oscuro e intenso */
+            --color-secondary-gray: #6c757d;
+            --color-light-gray: #f4f6f9; 
+            --color-dark-gray: #212529;
+            --color-accent-yellow: #ffc107; /* Amarillo vibrante */
+            --color-accent-yellow-dark: #cc9a00;
+            --color-white: #ffffff;
+            --color-border: #ced4da;
+            --box-shadow-light: 0 4px 8px rgba(0, 0, 0, 0.08);
+            --box-shadow-medium: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Base y tipografía */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-light-gray);
+            color: var(--color-dark-gray);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--color-white);
+            box-shadow: var(--box-shadow-medium);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* --- ESTILOS DEL ENCABEZADO --- */
+        .app-header {
+            background: linear-gradient(135deg, var(--color-primary-blue) 0%, #007bff 100%);
+            color: var(--color-white);
+            padding: 30px 20px;
+            border-bottom: 6px solid var(--color-accent-yellow);
+        }
+        .header-content {
+            display: flex; flex-direction: row; align-items: center; justify-content: center;
+            gap: 20px; text-align: left;
+        }
+        .header-titles {
+            display: flex; flex-direction: column; align-items: flex-start; justify-content: center;
+        }
+        .ruler-icon-svg {
+            width: 70px; height: 70px; min-width: 70px; fill: var(--color-white); 
+            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.9)); 
+        }
+        .app-header h1, .app-header .subtitle {
+            font-family: 'Rajdhani', sans-serif; margin: 0; line-height: 1; 
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4); letter-spacing: 2px;
+        }
+        .app-header h1 {
+            font-weight: 700; font-size: 3.5em; color: var(--color-white);
+        }
+        .app-header .subtitle {
+            font-weight: 600; font-size: 2.5em; color: var(--color-accent-yellow);
+        }
+        /* ---------------------------------- */
+
+        /* Contenedor principal del formulario */
+        .form-container {
+            padding: 30px;
+            display: grid;
+            gap: 30px;
+        }
+        
+        /* Contenedores de 2 columnas */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .cost-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--box-shadow-light);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card h2 {
+            color: var(--color-primary-blue);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 3px solid var(--color-accent-yellow);
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+
+        /* --- ESTILOS DE LA SECCIÓN: Datos del Técnico y Empresa --- */
+        .technical-data .tech-data-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 20px;
+        }
+
+        .technical-data .tech-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* Estilo para el contenedor de Logo que ahora es clickeable */
+        #logoUploadLabel {
+            cursor: pointer;
+            min-width: 180px; 
+            height: 130px;
+            background-color: var(--color-light-gray);
+            border: none; 
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--color-secondary-gray);
+            font-weight: 600;
+            font-size: 1.0em; 
+            padding: 5px;
+            overflow: hidden; 
+            transition: background-color 0.2s;
+            position: relative; 
+        }
+
+        #logoUploadLabel:hover {
+            background-color: #e2e6eb;
+        }
+
+        /* Estilo para el SVG de la subida - Aumentado */
+        .upload-icon-svg {
+            width: 50px; 
+            height: 50px;
+            fill: var(--color-primary-blue);
+            margin-bottom: 8px;
+        }
+
+        /* Estilo para la imagen cargada */
+        #uploadedLogo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            border-radius: 8px;
+            padding: 5px; 
+        }
+
+        /* Estilo para el texto/SVG cuando no hay logo */
+        #logoText {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%; 
+            color: var(--color-secondary-gray);
+        }
+
+        /* Ocultar el input file real */
+        #logoUpload {
+            display: none;
+        }
+        /* ------------------------------------------------------------- */
+
+
+        .input-group { margin-bottom: 15px; }
+
+        .input-group label {
+            display: block; margin-bottom: 5px; font-weight: 600;
+            color: var(--color-dark-gray); font-size: 1em;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="tel"],
+        .input-group input[type="number"],
+        .input-group input[type="date"],
+        .input-group select,
+        .input-group textarea {
+            width: calc(100% - 20px); padding: 10px; border: 1px solid var(--color-border);
+            border-radius: 6px; font-size: 1em; color: var(--color-dark-gray);
+            box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            outline: none; border-color: var(--color-accent-yellow);
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.4);
+        }
+        
+        .dimension-group { display: flex; gap: 15px; }
+        .dimension-group > div { flex: 1; }
+
+        /* Checklist de Materiales - Más compacto */
+        .checklist-container {
+            display: grid; grid-template-columns: 1fr; gap: 8px;
+        }
+        .checklist-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            background-color: var(--color-light-gray); padding: 10px;
+            border-radius: 6px; border-left: 5px solid var(--color-primary-blue);
+        }
+        .checklist-item input[type="checkbox"] {
+            width: auto; transform: scale(1.3); margin-top: 4px; flex-shrink: 0;
+        }
+        .checklist-item label {
+            margin: 0; font-weight: 500; line-height: 1.4; color: var(--color-dark-gray);
+        }
+        
+        #otherAccessoriesText {
+            margin-top: 5px; width: calc(100% - 20px); padding: 8px;
+            border: 1px solid var(--color-border); border-radius: 4px; font-size: 0.95em;
+        }
+
+        /* Resumen de costos */
+        .cost-summary {
+            background-color: #e9f0ff; border: 2px solid var(--color-primary-blue);
+            border-radius: 8px; padding: 20px; margin-top: 10px;
+        }
+        .cost-summary h3 { 
+            color: var(--color-dark-gray); font-size: 1.4em; margin-top: 0; margin-bottom: 15px;
+            border-bottom: 1px dashed var(--color-border); padding-bottom: 8px;
+        }
+        .cost-summary p { 
+            display: flex; justify-content: space-between; margin-bottom: 10px; 
+            font-size: 1.05em; font-weight: 500;
+        }
+        
+        .total-display {
+            text-align: right; margin-top: 20px; padding-top: 15px;
+            border-top: 3px solid var(--color-accent-yellow);
+        }
+        .total-display p { 
+            font-size: 2.2em; font-weight: 700; color: var(--color-primary-blue); margin: 0; 
+        }
+        
+        .checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .checkbox-group input[type="checkbox"] { width: auto; transform: scale(1.3); }
+
+        .signature-pad { margin-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        #signatureCanvas {
+            border: 2px solid var(--color-primary-blue); border-radius: 8px; background-color: var(--color-white);
+            touch-action: none; max-width: 100%; height: auto; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn {
+            padding: 15px 25px; border: none; border-radius: 8px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center;
+            justify-content: center; gap: 10px; font-weight: 700; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            text-transform: uppercase;
+        }
+
+        .actions-section { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 30px; }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .data-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .cost-grid {
+                grid-template-columns: 2fr 1.5fr;
+            }
+            .checklist-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; gap: 15px; }
+            .header-titles { align-items: center; }
+            .technical-data .tech-data-container { flex-direction: column; }
+            #logoUploadLabel { width: 100%; min-width: auto; height: 100px; }
+            .dimension-group { flex-direction: column; gap: 10px; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <div class="header-content">
+                <svg enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" class="ruler-icon-svg">
+                    <g id="_x39_2_x2C__Measure_x2C__measurement_x2C__ruler_x2C__scale_x2C__tools"><g id="XMLID_1286_"><g id="XMLID_1287_"><g id="XMLID_1345_"><g id="XMLID_1346_"><path id="XMLID_1347_" d="m376 136c-5.523 0-10-4.478-10-10 0-16.542-13.458-30-30-30-5.523 0-10-4.478-10-10s4.477-10 10-10c16.542 0 30-13.458 30-30 0-5.522 4.477-10 10-10s10 4.478 10 10c0 16.542 13.458 30 30 30 5.523 0 10 4.478 10 10s-4.477 10-10 10c-16.542 0-30 13.458-30 30 0 5.522-4.477 10-10 10zm-10.031-50c3.798 2.853 7.178 6.233 10.031 10.031 2.853-3.798 6.233-7.179 10.031-10.031-3.798-2.853-7.178-6.233-10.031-10.031-2.853 3.797-6.233 7.178-10.031 10.031z"/></g></g><g id="XMLID_1342_"><g id="XMLID_1343_"><circle id="XMLID_1018_" cx="466" cy="296" r="10"/></g></g><g id="XMLID_1339_"><g id="XMLID_1340_"><circle id="XMLID_1017_" cx="246" cy="76" r="10"/></g></g><g id="XMLID_1336_"><g id="XMLID_1337_"><circle id="XMLID_1016_" cx="46" cy="245.999" r="10"/></g></g><g id="XMLID_1333_"><g id="XMLID_1334_"><circle id="XMLID_1015_" cx="446" cy="135.999" r="10"/></g></g><g id="XMLID_1328_"><g id="XMLID_1329_"><path id="XMLID_1330_" d="m436 376h-340c-5.523 0-10-4.478-10-10v-340c0-4.045 2.437-7.691 6.173-9.239 3.736-1.545 8.038-.692 10.898 2.168l340 340c2.86 2.86 3.715 7.161 2.167 10.898-1.547 3.736-5.194 6.173-9.238 6.173zm-330-20h305.858l-305.858-305.858z"/></g></g><g id="XMLID_1323_"><g id="XMLID_1324_"><path id="XMLID_1325_" d="m315.289 326h-169.289c-5.523 0-10-4.478-10-10v-169.289c0-4.045 2.437-7.691 6.173-9.239 3.736-1.545 8.038-.691 10.898 2.168l169.289 169.288c2.86 2.86 3.715 7.161 2.167 10.898-1.547 3.737-5.194 6.174-9.238 6.174zm-159.289-20h135.147l-135.147-135.147z"/></g></g><g id="XMLID_1318_"><g id="XMLID_1319_"><path id="XMLID_1320_" d="m486 496h-460c-5.523 0-10-4.478-10-10v-80c0-5.522 4.477-10 10-10h460c5.523 0 10 4.478 10 10v80c0 5.522-4.477 10-10 10zm-450-20h440v-60h-440z"/></g></g><g id="XMLID_1315_"><g id="XMLID_1316_"><path id="XMLID_1008_" d="m76 496c-5.523 0-10-4.478-10-10v-30c0-5.522 4.477-10 10-10s10 4.478 10 10v30c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1312_"><g id="XMLID_1313_"><path id="XMLID_1007_" d="m116 496c-5.523 0-10-4.478-10-10v-40c0-5.522 4.477-10 10-10s10 4.478 10 10v40c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1309_"><g id="XMLID_1310_"><path id="XMLID_1006_" d="m156 496c-5.523 0-10-4.478-10-10v-30c0-5.522 4.477-10 10-10s10 4.478 10 10v30c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1306_"><g id="XMLID_1307_"><path id="XMLID_1005_" d="m196 496c-5.523 0-10-4.478-10-10v-40c0-5.522 4.477-10 10-10s10 4.478 10 10v40c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1303_"><g id="XMLID_1304_"><path id="XMLID_1004_" d="m236 496c-5.523 0-10-4.478-10-10v-30c0-5.522 4.477-10 10-10s10 4.478 10 10v30c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1300_"><g id="XMLID_1301_"><path id="XMLID_1003_" d="m276 496c-5.523 0-10-4.478-10-10v-40c0-5.522 4.477-10 10-10s10 4.478 10 10v40c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1297_"><g id="XMLID_1298_"><path id="XMLID_1002_" d="m316 496c-5.523 0-10-4.478-10-10v-30c0-5.522 4.477-10 10-10s10 4.478 10 10v30c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1294_"><g id="XMLID_1295_"><path id="XMLID_1001_" d="m356 496c-5.523 0-10-4.478-10-10v-40c0-5.522 4.477-10 10-10s10 4.478 10 10v40c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1291_"><g id="XMLID_1292_"><path id="XMLID_1000_" d="m396 496c-5.523 0-10-4.478-10-10v-30c0-5.522 4.477-10 10-10s10 4.478 10 10v30c0 5.522-4.477 10-10 10z"/></g></g><g id="XMLID_1288_"><g id="XMLID_1289_"><path id="XMLID_999_" d="m436 496c-5.523 0-10-4.478-10-10v-40c0-5.522 4.477-10 10-10s10 4.478 10 10v40c0 5.522-4.477 10-10 10z"/></g></g></g></g></g></svg>
+                <div class="header-titles">
+                    <h1>PRESUPUESTO PRO</h1>
+                    <p class="subtitle">VIDRIO Y ALUMINIO</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="form-container">
+            <section class="card technical-data">
+                <h2><i class="fas fa-building"></i> Datos del Técnico y Empresa</h2>
+                <div class="tech-data-container">
+                    <div class="tech-details">
+                        <div class="input-group">
+                            <label for="companyName">Establecimiento:</label>
+                            <input type="text" id="companyName" placeholder="Nombre de la empresa/taller">
+                        </div>
+                        <div class="input-group">
+                            <label for="technicianName">Técnico/Encargado:</label>
+                            <input type="text" id="technicianName" placeholder="Nombre del instalador/vendedor">
+                        </div>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label for="companyPhone">Teléfono de Contacto:</label>
+                            <input type="tel" id="companyPhone" placeholder="Ej. 3312345678">
+                        </div>
+                    </div>
+                    
+                    <input type="file" id="logoUpload" accept="image/*">
+                    <label for="logoUpload" id="logoUploadLabel">
+                        <img id="uploadedLogo" src="" alt="Logotipo Cargado" style="display: none;">
+                        <span id="logoText">
+                            <svg version="1.1" id="Capa_1_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 409.6 409.6" class="upload-icon-svg" xml:space="preserve"><g><g><path d="M136.535,201.866l-68.27,68.27V307.2c0,18.765,15.37,34.135,34.135,34.135h173.583L136.535,201.866z"/></g></g><g><g><path d="M273.065,236.001l-27.064,27.064l75.167,75.187c11.837-5.366,20.168-17.265,20.168-31.048v-2.934L273.065,236.001z"/></g></g><g><g><path d="M307.2,68.265H102.4c-18.765,0-34.135,15.37-34.135,34.135v119.465l68.27-68.265l85.33,85.335l51.2-51.2L341.335,256 V102.4C341.335,83.635,325.965,68.265,307.2,68.265z M221.885,170.665c-14.152,0-25.62-11.464-25.62-25.6 c0-14.131,11.469-25.6,25.62-25.6c14.131,0,25.6,11.469,25.6,25.6C247.485,159.201,236.017,170.665,221.885,170.665z"/></g></g><g><g><polygon points="0,0 0,136.535 34.135,136.535 34.135,34.135 136.535,34.135 136.535,0 "/></g></g><g><g><polygon points="375.465,273.065 375.465,375.465 273.065,375.465 273.065,409.6 409.6,409.6 409.6,273.065 "/></g></g><g><g><polygon points="34.135,375.465 34.135,273.065 0,273.065 0,409.6 136.535,409.6 136.535,375.465 "/></g></g><g><g><polygon points="273.065,0 273.065,34.135 375.465,34.135 375.465,136.535 409.6,136.535 409.6,0 "/></g></g></svg>
+                            Carga tu logotipo
+                        </span>
+                    </label>
+                    
+                </div>
+            </section>
+            <div class="data-grid">
+                <section class="card client-data">
+                    <h2><i class="fas fa-user"></i> Datos del Cliente</h2>
+                    <div class="input-group">
+                        <label for="clientName">Nombre:</label>
+                        <input type="text" id="clientName" placeholder="Nombre completo del cliente" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="clientAddress">Domicilio:</label>
+                        <input type="text" id="clientAddress" placeholder="Dirección del cliente">
+                    </div>
+                    <div class="input-group">
+                        <label for="clientPhone">Teléfono:</label>
+                        <input type="tel" id="clientPhone" placeholder="Ej. 3312345678">
+                    </div>
+                    <div class="input-group">
+                        <label for="quoteDate">Fecha:</label>
+                        <input type="date" id="quoteDate" value="">
+                    </div>
+                </section>
+
+                <section class="card job-details">
+                    <h2><i class="fas fa-briefcase"></i> Detalles del Trabajo</h2>
+                     <div class="input-group">
+                        <label for="serviceType">Tipo de Servicio:</label>
+                        <select id="serviceType">
+                            <option value="Puertas">Puertas</option>
+                            <option value="Ventanas">Ventanas</option>
+                            <option value="Canceles de Baño">Canceles de Baño</option>
+                            <option value="Domos">Domos</option>
+                            <option value="Barandales">Barandales</option>
+                            <option value="Espejos">Espejos</option>
+                            <option value="Muros Cortina">Muros Cortina</option>
+                            <option value="Fachadas Integrales">Fachadas Integrales</option>
+                            <option value="Puertas Automáticas">Puertas Automáticas</option>
+                            <option value="Vidrio de Seguridad">Vidrio de Seguridad</option>
+                            <option value="Displays/Vitrinas">Displays/Vitrinas</option>
+                            <option value="Mosquiteros">Mosquiteros</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="dimension-group">
+                        <div class="input-group">
+                            <label for="height">Alto (metros):</label>
+                            <input type="number" id="height" placeholder="Ej: 2.10" min="0.1" step="0.01">
+                        </div>
+                        <div class="input-group">
+                            <label for="width">Ancho (metros):</label>
+                            <input type="number" id="width" placeholder="Ej: 1.50" min="0.1" step="0.01">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="materialGlass">Material - Vidrio:</label>
+                        <select id="materialGlass">
+                            <option value="Claro">Claro</option>
+                            <option value="Templado">Templado</option>
+                            <option value="Laminado">Laminado</option>
+                            <option value="Duo-Vent (Insulado)">Duo-Vent (Insulado)</option>
+                            <option value="Low-E (Bajo Emisivo)">Low-E (Bajo Emisivo)</option>
+                            <option value="Reflectivo">Reflectivo</option>
+                            <option value="Esmerilado / Satinado">Esmerilado / Satinado</option>
+                            <option value="Texturizado">Texturizado</option>
+                            <option value="Antirreflejante">Antirreflejante</option>
+                            <option value="Serigrafiado">Serigrafiado</option>
+                            <option value="Acústico">Acústico</option>
+                            <option value="Blindado">Blindado</option>
+                            <option value="Flotado">Flotado</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="materialAlum">Material - Aluminio:</label>
+                        <select id="materialAlum">
+                            <option value="Anodizado Natural">Anodizado Natural</option>
+                            <option value="Lacado Blanco">Lacado Blanco</option>
+                            <option value="Lacado Negro">Lacado Negro</option>
+                            <option value="Anodizado Bronce">Anodizado Bronce</option>
+                            <option value="Anodizado Champaña">Anodizado Champaña</option>
+                            <option value="Anodizado Gris Euro">Anodizado Gris Euro</option>
+                            <option value="Anodizado Acero Inox">Anodizado Acero Inox</option>
+                            <option value="Sublimado (Tipo Madera)">Sublimado (Tipo Madera)</option>
+                            <option value="Sin Aluminio">Sin Aluminio</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+            
+            <div class="cost-grid">
+                <section class="card additional-materials">
+                    <h2><i class="fas fa-tools"></i> Materiales y Accesorios Incluidos</h2>
+                    <div class="checklist-container">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_bisagras" value="Bisagras para puertas (varios tipos)">
+                            <label for="mat_bisagras">Bisagras para puertas (canto redondo, cazoleta, libro, etc.)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_manijas" value="Manijas y jaladeras (diversos diseños)">
+                            <label for="mat_manijas">Manijas y jaladeras (tipo "H", botón, europea, etc.)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_cerraduras" value="Chapas o cerraduras de seguridad">
+                            <label for="mat_cerraduras">Chapas o cerraduras (de embutir, de gancho, multipunto, etc.)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_carretillas" value="Carretillas o rodamientos (para corredizas)">
+                            <label for="mat_carretillas">Carretillas o rodamientos (sencillas, dobles, reforzadas)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_topes" value="Topes de puerta/ventana">
+                            <label for="mat_topes">Topes de puerta/ventana (magnéticos, de hule, de piso, etc.)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_tapones" value="Tapones y cubretornillos">
+                            <label for="mat_tapones">Tapones y cubretornillos (plásticos, metálicos, decorativos)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_juntas" value="Tapa juntas y tapas finales para perfiles">
+                            <label for="mat_juntas">Tapa juntas y tapas finales para perfiles (PVC, aluminio)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_escuadras" value="Escuadras de unión y fijación">
+                            <label for="mat_escuadras">Escuadras de unión internas y externas (reforzadas)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_remaches" value="Remaches y tornillería">
+                            <label for="mat_remaches">Remaches (aluminio, acero, color) y tornillería diversa</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_neopreno" value="Sellos y empaques de neopreno/silicón">
+                            <label for="mat_neopreno">Tiras de neopreno/espuma y sellos de silicón (muro-marco)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_pijas" value="Pijas y fijaciones especiales">
+                            <label for="mat_pijas">Pijas, taquetes y fijaciones especiales para muro/concreto</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_viniles" value="Viniles decorativos/esmerilados">
+                            <label for="mat_viniles">Viniles decorativos, esmerilados o de seguridad</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_cortavientos" value="Cortavientos y burletes">
+                            <label for="mat_cortavientos">Cortavientos, burletes y cepillos de sellado</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_brazos_cierrapuertas" value="Brazos cierrapuertas hidráulicos">
+                            <label for="mat_brazos_cierrapuertas">Brazos cierrapuertas hidráulicos o de resorte</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_pasadores" value="Pasadores y seguros adicionales">
+                            <label for="mat_pasadores">Pasadores de piso, de marco y seguros adicionales</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_kit_limpieza" value="Kit de limpieza inicial">
+                            <label for="mat_kit_limpieza">Kit de limpieza inicial (paño, limpiador especializado)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="mat_pivotantes" value="Herrajes pivotantes">
+                            <label for="mat_pivotantes">Herrajes pivotantes (para puertas y ventanas giratorias)</label>
+                        </div>
+                        <div class="input-group checklist-item">
+                            <input type="checkbox" id="mat_otros" value="Otros accesorios (especificar)">
+                            <label for="mat_otros">Otros accesorios (especificar)</label>
+                            <input type="text" id="otherAccessoriesText" placeholder="Detalles de otros accesorios" style="display: none;">
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="card cost-calculations">
+                    <h2><i class="fas fa-calculator"></i> Cálculos y Costos</h2>
+                    <div class="input-group">
+                        <label for="priceAlumMeter">Precio por m² de Aluminio ($):</label>
+                        <input type="number" id="priceAlumMeter" placeholder="Costo por metro cuadrado" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="priceGlassSqMeter">Precio por M² de Vidrio ($):</label>
+                        <input type="number" id="priceGlassSqMeter" placeholder="Costo por metro cuadrado" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="laborCost">Costo de Mano de Obra ($):</label>
+                        <input type="number" id="laborCost" placeholder="Costo total de mano de obra" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="extraAccessoriesCost">Costo de Accesorios Adicionales ($):</label>
+                        <input type="number" id="extraAccessoriesCost" placeholder="Costo adicional (opcional)" min="0" step="0.01" value="0">
+                    </div>
+                    
+                    <div class="cost-summary">
+                        <h3>Resumen del Presupuesto</h3>
+                        <p>Costo Vidrio: $<span id="displayGlassCost">0.00</span></p>
+                        <p>Costo Aluminio: $<span id="displayAlumCost">0.00</span></p>
+                        <p>Mano de Obra: $<span id="displayLaborCost">0.00</span></p>
+                        <p>Accesorios Adic.: $<span id="displayExtraAccessoriesCost">0.00</span></p>
+                        <p>Subtotal: $<span id="displaySubtotal">0.00</span></p>
+                        
+                        <div class="input-group checkbox-group">
+                            <input type="checkbox" id="applyIVA">
+                            <label for="applyIVA">Aplicar IVA (16%)</label>
+                        </div>
+                        <div class="input-group">
+                            <label for="discount">Descuento (%):</label>
+                            <input type="number" id="discount" placeholder="Ej. 10" min="0" max="100" step="1" value="0">
+                        </div>
+                        
+                        <div class="total-display">
+                            <p><strong>TOTAL FINAL: $<span id="displayTotal">0.00</span></strong></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <section class="card additional-notes">
+                <h2><i class="fas fa-file-alt"></i> Notas Adicionales</h2>
+                <div class="input-group">
+                    <textarea id="notes" rows="5" placeholder="Aquí puedes añadir condiciones de pago, tiempo de entrega, detalles específicos del proyecto, etc."></textarea>
+                </div>
+            </section>
+
+            <section class="card signature-section">
+                <h2><i class="fas fa-signature"></i> Firma Digital (Opcional)</h2>
+                <div class="signature-pad">
+                    <canvas id="signatureCanvas" width="400" height="200"></canvas>
+                    <button type="button" id="clearSignature" class="btn btn-secondary"><i class="fas fa-eraser"></i> Limpiar Firma</button>
+                </div>
+            </section>
+
+            <section class="actions-section">
+                <button type="button" id="generatePdfBtn" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Generar PDF</button>
+                <button type="button" id="whatsappBtn" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Enviar por WhatsApp</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const { jsPDF } = window.jspdf;
+            
+            // Establecer la fecha actual por defecto
+            document.getElementById('quoteDate').value = new Date().toISOString().split('T')[0];
+
+            // --- Referencias a Elementos del DOM ---
+            const UIElements = {
+                inputs: {
+                    companyName: document.getElementById('companyName'),
+                    technicianName: document.getElementById('technicianName'),
+                    companyPhone: document.getElementById('companyPhone'),
+                    logoUpload: document.getElementById('logoUpload'),
+                    
+                    height: document.getElementById('height'),
+                    width: document.getElementById('width'),
+                    priceAlumMeter: document.getElementById('priceAlumMeter'),
+                    priceGlassSqMeter: document.getElementById('priceGlassSqMeter'),
+                    laborCost: document.getElementById('laborCost'), 
+                    extraAccessoriesCost: document.getElementById('extraAccessoriesCost'), 
+                    
+                    applyIVA: document.getElementById('applyIVA'),
+                    discount: document.getElementById('discount'),
+                    clientName: document.getElementById('clientName'),
+                    clientAddress: document.getElementById('clientAddress'),
+                    clientPhone: document.getElementById('clientPhone'),
+                    quoteDate: document.getElementById('quoteDate'),
+                    serviceType: document.getElementById('serviceType'),
+                    materialGlass: document.getElementById('materialGlass'),
+                    materialAlum: document.getElementById('materialAlum'),
+                    notes: document.getElementById('notes'),
+                    otherAccessoriesCheckbox: document.getElementById('mat_otros'),
+                    otherAccessoriesText: document.getElementById('otherAccessoriesText')
+                },
+                displays: {
+                    glassCost: document.getElementById('displayGlassCost'),
+                    alumCost: document.getElementById('displayAlumCost'),
+                    laborCost: document.getElementById('displayLaborCost'), 
+                    extraAccessoriesCost: document.getElementById('displayExtraAccessoriesCost'),
+                    subtotal: document.getElementById('displaySubtotal'),
+                    total: document.getElementById('displayTotal'),
+                    uploadedLogo: document.getElementById('uploadedLogo'),
+                    logoText: document.getElementById('logoText')
+                },
+                buttons: {
+                    generatePdf: document.getElementById('generatePdfBtn'),
+                    sendWhatsapp: document.getElementById('whatsappBtn'),
+                    clearSignature: document.getElementById('clearSignature')
+                },
+                signature: {
+                    canvas: document.getElementById('signatureCanvas'),
+                    ctx: document.getElementById('signatureCanvas').getContext('2d'),
+                    isDrawing: false
+                }
+            };
+            
+            let logoDataURL = null;
+
+            // --- Lógica para Cargar Logotipo ---
+            UIElements.inputs.logoUpload.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        logoDataURL = e.target.result;
+                        UIElements.displays.uploadedLogo.src = logoDataURL;
+                        UIElements.displays.uploadedLogo.style.display = 'block';
+                        UIElements.displays.logoText.style.display = 'none';
+                        UIElements.displays.uploadedLogo.alt = file.name;
+
+                        const label = document.getElementById('logoUploadLabel');
+                        label.style.padding = '0'; 
+                        label.style.border = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // --- Lógica para mostrar/ocultar el campo "Otros Accesorios" ---
+            UIElements.inputs.otherAccessoriesCheckbox.addEventListener('change', () => {
+                UIElements.inputs.otherAccessoriesText.style.display = UIElements.inputs.otherAccessoriesCheckbox.checked ? 'block' : 'none';
+                if (!UIElements.inputs.otherAccessoriesCheckbox.checked) {
+                    UIElements.inputs.otherAccessoriesText.value = '';
+                }
+            });
+            
+            // --- Lógica de Cálculo ---
+            function calculateTotal() {
+                const i = UIElements.inputs;
+                const d = UIElements.displays;
+                
+                const height = parseFloat(i.height.value) || 0;
+                const width = parseFloat(i.width.value) || 0;
+                const priceAlumMeter = parseFloat(i.priceAlumMeter.value) || 0;
+                const priceGlassSqMeter = parseFloat(i.priceGlassSqMeter.value) || 0;
+                
+                const laborCost = parseFloat(i.laborCost.value) || 0;
+                const extraAccessoriesCost = parseFloat(i.extraAccessoriesCost.value) || 0;
+
+                const discountPercentage = parseFloat(i.discount.value) || 0;
+
+                const glassArea = height * width;
+                const glassCost = glassArea * priceGlassSqMeter;
+                const alumArea = height * width; // área en m²
+               const alumCost = alumArea * priceAlumMeter;
+                
+                const subtotal = glassCost + alumCost + laborCost + extraAccessoriesCost;
+                
+                const totalAfterDiscount = subtotal * (1 - (discountPercentage / 100));
+                const finalTotal = i.applyIVA.checked ? totalAfterDiscount * 1.16 : totalAfterDiscount;
+
+                d.glassCost.textContent = glassCost.toFixed(2);
+                d.alumCost.textContent = alumCost.toFixed(2);
+                d.laborCost.textContent = laborCost.toFixed(2); 
+                d.extraAccessoriesCost.textContent = extraAccessoriesCost.toFixed(2);
+                d.subtotal.textContent = subtotal.toFixed(2);
+                d.total.textContent = finalTotal.toFixed(2);
+            }
+            
+            Object.values(UIElements.inputs).forEach(input => {
+                if (input && (input.tagName === 'INPUT' || input.tagName === 'SELECT' || input.tagName === 'TEXTAREA')) {
+                    input.addEventListener('input', calculateTotal);
+                }
+            });
+            calculateTotal();
+
+            // --- Lógica de Firma Digital ---
+            const sig = UIElements.signature;
+            sig.ctx.lineWidth = 2;
+            sig.ctx.lineCap = 'round';
+            const getCoords = (e) => {
+                const rect = sig.canvas.getBoundingClientRect();
+                const evt = e.touches ? e.touches[0] : e;
+                return [evt.clientX - rect.left, evt.clientY - rect.top];
+            };
+            const startDrawing = (e) => {
+                sig.isDrawing = true;
+                const [x, y] = getCoords(e);
+                sig.ctx.beginPath();
+                sig.ctx.moveTo(x, y);
+                e.preventDefault();
+            };
+            const draw = (e) => {
+                if (!sig.isDrawing) return;
+                const [x, y] = getCoords(e);
+                sig.ctx.lineTo(x, y);
+                sig.ctx.stroke();
+                e.preventDefault();
+            };
+            const stopDrawing = () => { sig.isDrawing = false; sig.ctx.closePath(); };
+
+            sig.canvas.addEventListener('mousedown', startDrawing);
+            sig.canvas.addEventListener('mousemove', draw);
+            sig.canvas.addEventListener('mouseup', stopDrawing);
+            sig.canvas.addEventListener('mouseout', stopDrawing);
+            sig.canvas.addEventListener('touchstart', startDrawing);
+            sig.canvas.addEventListener('touchmove', draw);
+            sig.canvas.addEventListener('touchend', stopDrawing);
+            UIElements.buttons.clearSignature.addEventListener('click', () => {
+                sig.ctx.clearRect(0, 0, sig.canvas.width, sig.canvas.height);
+            });
+
+            // --- Lógica de Generación de PDF (AJUSTADA PARA EL LOGO Y UNA SOLA PÁGINA) ---
+            UIElements.buttons.generatePdf.addEventListener('click', () => {
+                const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+                const margin = 20;
+                // Reducimos el espacio vertical inicial y el espaciado para que todo quepa.
+                let yPos = 18; // Inicia más arriba
+                const i = UIElements.inputs;
+                const d = UIElements.displays;
+                const blue = [0, 77, 153];
+                const yellow = [255, 193, 7];
+                const lineHeight = 6; // Espacio de línea reducido de 7 a 6
+                const sectionSpace = 6; // Espacio entre secciones reducido de 8 a 6
+
+                // Función de sección AJUSTADA
+                const addSection = (title, content) => {
+                    doc.setFontSize(14); // Títulos un poco más pequeños
+                    doc.setTextColor(blue[0], blue[1], blue[2]);
+                    doc.text(title, margin, yPos); yPos += sectionSpace; // Espacio reducido
+                    doc.setFontSize(10); // Texto de contenido más pequeño
+                    doc.setTextColor(52, 58, 64);
+                    content.forEach(line => { doc.text(line, margin, yPos); yPos += lineHeight; });
+                    yPos += sectionSpace; // Espacio reducido
+                };
+                
+                // Encabezado del PDF
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(26);
+                doc.setTextColor(blue[0], blue[1], blue[2]);
+                doc.text("PRESUPUESTO PRO", margin, 18); // Título en posición fija
+                doc.setFontSize(14);
+                doc.setTextColor(108, 117, 125);
+                doc.text("Trabajos en Vidrio y Aluminio", margin, 18 + 8); // Subtítulo en posición fija
+                
+                // Línea divisoria
+                doc.setDrawColor(yellow[0], yellow[1], yellow[2]);
+                doc.setLineWidth(1.5);
+                doc.line(margin, 18 + 18, 210 - margin, 18 + 18);
+                yPos = 18 + 22; // Posición de inicio después de la línea
+
+                // Función para la lógica del PDF sin logo (necesaria para el flujo asíncrono)
+                const generateContent = (docInstance, currentYPos) => {
+                    yPos = currentYPos;
+
+                    // Datos del Técnico/Empresa
+                    addSection("Datos del Técnico y Empresa", [
+                        `Establecimiento: ${i.companyName.value || 'N/A'}`,
+                        `Técnico/Encargado: ${i.technicianName.value || 'N/A'}`,
+                        `Teléfono de Contacto: ${i.companyPhone.value || 'N/A'}`
+                    ]);
+
+                    addSection("Datos del Cliente", [
+                        `Nombre: ${i.clientName.value}`, `Domicilio: ${i.clientAddress.value}`,
+                        `Teléfono: ${i.clientPhone.value}`, `Fecha: ${i.quoteDate.value}`
+                    ]);
+
+                    addSection("Detalles del Trabajo", [
+                        `Tipo de Servicio: ${i.serviceType.value}`,
+                        `Medidas: Alto ${i.height.value || 0}m, Ancho ${i.width.value || 0}m`,
+                        `Material Vidrio: ${i.materialGlass.value}`, `Material Aluminio: ${i.materialAlum.value}`
+                    ]);
+
+                    // Recolectar items del checklist
+                    let checkedItems = Array.from(document.querySelectorAll('.checklist-container input[type="checkbox"]:checked'))
+                                        .filter(cb => cb.id !== 'mat_otros')
+                                        .map(cb => `• ${cb.value}`);
+                    
+                    if (i.otherAccessoriesCheckbox.checked && i.otherAccessoriesText.value.trim() !== '') {
+                        checkedItems.push(`• Otros: ${i.otherAccessoriesText.value.trim()}`);
+                    }
+
+                    // Forzamos el uso de una tabla o columna con más texto si hay muchos ítems para ahorrar espacio
+                    if (checkedItems.length > 0) {
+                        docInstance.setFontSize(14); 
+                        docInstance.setTextColor(blue[0], blue[1], blue[2]);
+                        docInstance.text("Materiales y Accesorios Incluidos", margin, yPos); 
+                        yPos += sectionSpace;
+                        docInstance.setFontSize(10); 
+                        docInstance.setTextColor(52, 58, 64);
+                        
+                        // Usamos una columna de texto grande para los accesorios
+                        const textLines = docInstance.splitTextToSize(checkedItems.join(' | '), 170); // 170mm de ancho
+                        textLines.forEach(line => { docInstance.text(line, margin, yPos); yPos += lineHeight - 1; }); // Espacio de línea más pequeño
+                        yPos += sectionSpace;
+                    }
+                    
+                    // Tabla de Costos
+                    docInstance.autoTable({
+                        startY: yPos,
+                        head: [["Concepto", "Costo"]],
+                        body: [
+                            ["Costo Vidrio", `$${parseFloat(d.glassCost.textContent).toFixed(2)}`],
+                            ["Costo Aluminio", `$${parseFloat(d.alumCost.textContent).toFixed(2)}`],
+                            ["Mano de Obra", `$${parseFloat(d.laborCost.textContent).toFixed(2)}`], 
+                            ["Accesorios Adicionales", `$${parseFloat(d.extraAccessoriesCost.textContent).toFixed(2)}`], 
+                        ],
+                        theme: 'striped', 
+                        headStyles: { fillColor: blue, fontSize: 10, minCellHeight: 6 },
+                        bodyStyles: { fontSize: 10, minCellHeight: 6 },
+                        margin: { left: margin, right: margin }
+                    });
+                    yPos = docInstance.autoTable.previous.finalY;
+
+                    // Totales
+                    const totalsRows = [
+                        [{content: 'Subtotal:', styles: {halign: 'right', fontStyle: 'bold'}}, `$${parseFloat(d.subtotal.textContent).toFixed(2)}`],
+                    ];
+                    if (parseFloat(i.discount.value) > 0) {
+                        const subtotalVal = parseFloat(d.subtotal.textContent);
+                        const discountAmount = subtotalVal * (parseFloat(i.discount.value) / 100);
+                        totalsRows.push([ {content: `Descuento (${i.discount.value}%):`, styles: {halign: 'right'}}, `- $${discountAmount.toFixed(2)}` ]);
+                    }
+                    if (i.applyIVA.checked) {
+                        const totalBeforeIva = parseFloat(d.total.textContent) / 1.16;
+                        const ivaAmount = totalBeforeIva * 0.16;
+                        totalsRows.push([ {content: 'IVA (16%):', styles: {halign: 'right'}}, `$${ivaAmount.toFixed(2)}` ]);
+                    }
+                    
+                    docInstance.autoTable({
+                        startY: yPos,
+                        body: totalsRows,
+                        theme: 'plain', 
+                        styles: {fontSize: 11, minCellHeight: 5}, // Tamaños reducidos
+                        margin: { left: margin, right: margin }
+                    });
+                    yPos = docInstance.autoTable.previous.finalY;
+
+                    docInstance.setFontSize(16); // Tamaño total
+                    docInstance.setFont('helvetica', 'bold'); 
+                    docInstance.setTextColor(blue[0], blue[1], blue[2]);
+                    docInstance.text(`TOTAL: $${d.total.textContent}`, 210 - margin, yPos + 8, { align: 'right' });
+                    yPos += 12;
+
+                    // Notas y Firma
+                    if (i.notes.value) {
+                        docInstance.setFontSize(14); 
+                        docInstance.setTextColor(blue[0], blue[1], blue[2]);
+                        docInstance.text("Notas Adicionales", margin, yPos); yPos += sectionSpace;
+                        docInstance.setFontSize(10); 
+                        docInstance.setTextColor(52, 58, 64);
+                        docInstance.text(docInstance.splitTextToSize(i.notes.value, 170), margin, yPos);
+                        yPos += (docInstance.splitTextToSize(i.notes.value, 170).length * lineHeight) + sectionSpace;
+                    }
+                    
+                    // Asegura que no haya salto ANTES de la firma
+                    if (yPos > 245) docInstance.addPage(); // Si queda muy abajo, puede saltar, ajustamos el límite
+
+                    // Firma de Aceptación
+                    if (!sig.canvas.toDataURL().endsWith("CAAAAA==")) {
+                        docInstance.setFontSize(10); 
+                        docInstance.setTextColor(52, 58, 64);
+                        docInstance.text("Firma de Aceptación", margin, yPos);
+                        docInstance.addImage(sig.canvas.toDataURL('image/png'), 'PNG', margin, yPos + 2, 50, 25); // Tamaño de firma reducido
+                    }
+
+                    docInstance.save(`Presupuesto_${i.clientName.value.replace(/ /g, '_') || 'Nuevo'}.pdf`);
+                };
+
+                // Lógica de carga de imagen (corregida y reubicada)
+                if (logoDataURL) {
+                    const img = new Image();
+                    img.src = logoDataURL;
+                    
+                    img.onload = () => {
+                        const originalWidth = img.width;
+                        const originalHeight = img.height;
+                        
+                        const logoMaxWidth = 45; // Ancho máximo
+                        const logoMaxHeight = 25; // Altura máxima
+
+                        let finalLogoWidth = logoMaxWidth;
+                        let finalLogoHeight = (originalHeight * logoMaxWidth) / originalWidth;
+
+                        if (finalLogoHeight > logoMaxHeight) {
+                            finalLogoHeight = logoMaxHeight;
+                            finalLogoWidth = (originalWidth * logoMaxHeight) / originalHeight;
+                        }
+                        
+                        // Posicionamiento del logo: después del título y al lado derecho.
+                        // Ajustamos la posición Y al centro del área del título.
+                        const yPosForLogo = 5; 
+                        const xPosForLogo = 210 - margin - finalLogoWidth;
+                        
+                        // AÑADIR EL LOGO
+                        doc.addImage(logoDataURL, 'PNG', xPosForLogo, yPosForLogo, finalLogoWidth, finalLogoHeight);
+
+                        // Asegura que el contenido comience debajo del área que ocupa el logo
+                        const logoAreaBottom = yPosForLogo + finalLogoHeight + 5;
+                        if (yPos < logoAreaBottom) {
+                            yPos = logoAreaBottom;
+                        }
+                        
+                        // Generar el resto del contenido
+                        generateContent(doc, yPos);
+                    };
+                    img.onerror = () => {
+                        console.error("Error al cargar la imagen para el PDF. Generando sin logo.");
+                        generateContent(doc, yPos); 
+                    };
+                } else {
+                    // Si no hay logo, simplemente generar el resto del PDF
+                    generateContent(doc, yPos);
+                }
+            });
+
+            // --- Enviar por WhatsApp ---
+             UIElements.buttons.sendWhatsapp.addEventListener('click', () => {
+                const clientName = UIElements.inputs.clientName.value || 'Cliente';
+                const total = UIElements.displays.total.textContent;
+                const message = `¡Hola ${clientName}! Te comparto tu presupuesto. El total es: $${total}. Para más detalles, por favor revisa el PDF. ¡Quedo a tus órdenes!`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
